@@ -1,0 +1,8 @@
+{
+  "name": "kumo-client",
+  "version": "0.1.0",
+  "description": "JavaScript client library for Kumo package",
+  "main": "index.js",
+  "repository": "https://github.com/ichiro-its/kumo-client",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com>"
+}

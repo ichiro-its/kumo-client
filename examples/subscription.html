@@ -46,16 +46,20 @@
       function subscribe() {
         send({
           "type": "CREATE_SUBSCRIPTION",
-          "node_id": nodeId,
-          "topic_name": topicNameInput.value,
-          "message_type": messageTypeInput.value
+          "content": {
+            "node_id": nodeId,
+            "topic_name": topicNameInput.value,
+            "message_type": messageTypeInput.value
+          }
         });
       }
 
       function unsubscribe() {
         send({
           "type": "DESTROY_SUBSCRIPTION",
-          "subscription_id": subscriptionId
+          "content": {
+            "subscription_id": subscriptionId
+          }
         });
       }
 
@@ -72,7 +76,9 @@
 
           send({
             "type": "CREATE_NODE",
-            "node_name": nodeNameInput.value
+            "content": {
+              "node_name": nodeNameInput.value
+            }
           });
         });
 
@@ -80,11 +86,12 @@
           try {
             const response = JSON.parse(event.data);
             if (response["type"] === "CREATE_NODE") {
-              if (response["error"]) {
-                alert(`Failed to create node, ${response["error"]}`);
+              content = response["content"];
+              if (content["error"]) {
+                alert(`Failed to create node, ${content["error"]}`);
               } else {
-                alert(`Node ${response["node_id"]} created!`);
-                nodeId = response["node_id"];
+                alert(`Node ${content["node_id"]} created!`);
+                nodeId = content["node_id"];
 
                 topicNameInput.disabled = false;
                 messageTypeInput.disabled = false;
@@ -93,11 +100,12 @@
                 subscribeButton.onclick = subscribe;
               }
             } else if (response["type"] === "CREATE_SUBSCRIPTION") {
-              if (response["error"]) {
-                alert(`Failed to create node, ${response["error"]}`);
+              content = response["content"];
+              if (content["error"]) {
+                alert(`Failed to create node, ${content["error"]}`);
               } else {
-                alert(`Subscription ${response["subscription_id"]} created!`);
-                subscriptionId = response["subscription_id"];
+                alert(`Subscription ${content["subscription_id"]} created!`);
+                subscriptionId = content["subscription_id"];
 
                 topicNameInput.disabled = true;
                 messageTypeInput.disabled = true;
@@ -105,11 +113,12 @@
                 subscribeButton.value = "unsubscribe";
                 subscribeButton.onclick = unsubscribe;
               }
-            }  else if (response["type"] === "DESTROY_SUBSCRIPTION") {
-              if (response["error"]) {
-                alert(`Failed to destroy node, ${response["error"]}`);
+            } else if (response["type"] === "DESTROY_SUBSCRIPTION") {
+              content = response["content"];
+              if (content["error"]) {
+                alert(`Failed to destroy subscription, ${content["error"]}`);
               } else {
-                alert(`Subscription ${response["subscription_id"]} destroyed!`);
+                alert(`Subscription ${content["subscription_id"]} destroyed!`);
                 subscriptionId = null;
 
                 topicNameInput.disabled = false;
@@ -118,9 +127,10 @@
                 subscribeButton.value = "subscribe";
                 subscribeButton.onclick = subscribe;
               }
-            } else if (response["type"] === "SUBSCRIPTION_CALLBACK") {
+            } else if (response["type"] === "SUBSCRIPTION_MESSAGE") {
+              content = response["content"];
               const el = document.createElement("li");
-              el.appendChild(document.createTextNode(response["message"]));
+              el.appendChild(document.createTextNode(content["message"]));
 
               outputList.appendChild(el);
             }

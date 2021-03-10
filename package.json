@@ -9,7 +9,7 @@
   "repository": "https://github.com/ichiro-its/kumo-client",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint . --ext .js,.ts"
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore ."
   },
   "dependencies": {
     "websocket": "^1.0.33"
@@ -20,7 +20,6 @@
     "@typescript-eslint/parser": "^4.17.0",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",

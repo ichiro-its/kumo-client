@@ -2,19 +2,30 @@
   "name": "kumo-client",
   "version": "0.1.0",
   "description": "JavaScript client library for Kumo package",
+  "license": "MIT",
+  "author": "Alfi Maulana <alfi.maulana.f@gmail.com>",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc"
-  },
   "repository": "https://github.com/ichiro-its/kumo-client",
-  "author": "Alfi Maulana <alfi.maulana.f@gmail.com>",
-  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .js,.ts"
+  },
   "dependencies": {
     "websocket": "^1.0.33"
   },
   "devDependencies": {
     "@types/websocket": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "prettier": "^2.2.1",
     "typescript": "^4.2.3"
   }
 }

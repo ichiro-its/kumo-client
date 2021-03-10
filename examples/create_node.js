@@ -17,7 +17,7 @@ session.onConnect(async (context) => {
     subscription = await node.createSubscription(
       'std_msgs/msg/String', '/topic',
       async (message) => {
-        console.info(`Received message: ${message}`);
+        console.info(`Received message: ${message.data}`);
 
         if (counter++ > 5) {
           if (subscription) {

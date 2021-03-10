@@ -14,17 +14,70 @@ class Executor<T> {
 
 export class BaseHandler {
 
+  id: string;
   connection: Connection;
+
+  #active: boolean;
+
+  #parent: BaseHandler | null;
+  #childs: Map<string, BaseHandler>;
 
   #executors: Map<MessageType, Map<string, Executor<Message>>>;
 
-  constructor(connection: Connection) {
+  constructor(connection: Connection, id: string) {
     this.connection = connection;
+    this.id = id;
+
+    this.#active = true;
+
+    this.#parent = null;
+    this.#childs = new Map();
 
     this.#executors = new Map();
   }
 
-  destroy(): void {
+  cleanUp(): boolean {
+    if (this.#active) {
+      this.#active = false;
+
+      for (const map of this.#executors.values()) {
+        for (const executor of map.values()) {
+          executor.reject(new Error('Handler destroyed'));
+        }
+      }
+
+      for (const child of this.#childs.values()) {
+        child.cleanUp();
+      }
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  attach(child: BaseHandler): void {
+    child.#parent = this;
+    this.#childs.set(child.id, child);
+
+    if (!this.#active) {
+      child.cleanUp();
+    }
+  }
+
+  detach(id: string): void {
+    if (this.#childs.has(id)) {
+      const child = this.#childs.get(id);
+      this.#childs.delete(id);
+
+      if (child) {
+        if (child.#active) {
+          child.cleanUp();
+        }
+
+        child.#parent = null;
+      }
+    }
   }
 
   handleMessage(message: Message): void {
@@ -37,6 +90,12 @@ export class BaseHandler {
         } else {
           executor.resolve(message);
         }
+      }
+    }
+
+    for (const child of this.#childs.values()) {
+      if (child.#active) {
+        child.handleMessage(message);
       }
     }
   }

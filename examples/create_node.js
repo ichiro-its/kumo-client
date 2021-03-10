@@ -4,16 +4,27 @@ const url = "ws://localhost:8080/";
 const session = new kumo.Session()
 
 console.info(`Connecting to the bridge on ${url}...`);
-session.onConnect((context) => {
+session.onConnect(async (context) => {
     console.info(`Connected to the bridge!`);
 
-    console.info("Creating a Node...");
-    context.createNode("test")
-      .then((node) => {
-        console.info(`Node ${node.id} created!`)
-      })
-      .catch((err) => {
-        console.error(err.message);
+    console.info("Creating a Node...")
+    const node = await context.createNode("test");
+
+    let counter = 0;
+    let subscription;
+
+    console.info("Creating a Subscription...");
+    subscription = await node.createSubscription(
+      'std_msgs/msg/String', '/topic',
+      async (message) => {
+        console.info(`Received message: ${message}`);
+
+        if (counter++ > 5) {
+          if (subscription) {
+            await subscription.destroy();
+            console.warn("Subscription destroyed!");
+          }
+        }
       });
   })
   .onDisconnect((err) => {

@@ -37,7 +37,7 @@ export class Session {
 
       connection.on("close", (code: number, desc: string): void => {
         if (this.#context) {
-          this.#context.destroy();
+          this.#context.cleanUp();
         }
 
         if (this.#disconnectCallback) {

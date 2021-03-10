@@ -1,11 +1,15 @@
-import { MessageType } from "../message";
+import { Message, MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler"
 import { NodeHandler } from "./node_handler"
 
 export class ContextHandler extends BaseHandler {
 
   constructor(connection: Connection) {
-    super(connection);
+    super(connection, '-1');
+  }
+
+  handleMessage(message: Message) {
+    super.handleMessage(message);
   }
 
   async createNode(nodeName: string): Promise<NodeHandler> {
@@ -13,6 +17,9 @@ export class ContextHandler extends BaseHandler {
       node_name: nodeName
     });
 
-    return new NodeHandler(this.connection, response.content.node_id);
+    const node = new NodeHandler(this.connection, response.content.node_id);
+    this.attach(node);
+
+    return node;
   }
 }

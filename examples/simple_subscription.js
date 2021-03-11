@@ -12,20 +12,26 @@ session
     const node = await context.createNode("test");
 
     let counter = 0;
-    let subscription;
 
     console.info("Creating a Subscription...");
-    subscription = await node.createSubscription(
+    const subscription = await node.createSubscription(
       "std_msgs/msg/String",
       "/topic",
       async (message) => {
         console.info(`Received message: ${message.data}`);
 
-        if (counter++ > 5) {
+        if (++counter >= 5) {
           if (subscription) {
             await subscription.destroy();
             console.warn("Subscription destroyed!");
           }
+
+          if (node) {
+            await node.destroy();
+            console.warn("Node destroyed!");
+          }
+
+          process.exit(0);
         }
       }
     );

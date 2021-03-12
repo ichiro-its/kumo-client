@@ -1,19 +1,21 @@
 import { connection as Connection } from "websocket";
 export { connection as Connection } from "websocket";
-import { Message, MessageType } from "../message"
+import { Message, MessageType } from "../message";
 
 class Executor<T> {
-  resolve: (value: T | PromiseLike<T>) => void
-  reject: (reason?: any) => void
+  resolve: (value: T | PromiseLike<T>) => void;
+  reject: (reason?: any) => void;
 
-  constructor(resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) {
-    this.resolve = resolve
-    this.reject = reject
+  constructor(
+    resolve: (value: T | PromiseLike<T>) => void,
+    reject: (reason?: any) => void
+  ) {
+    this.resolve = resolve;
+    this.reject = reject;
   }
 }
 
 export class BaseHandler {
-
   id: string;
   connection: Connection;
 
@@ -42,7 +44,7 @@ export class BaseHandler {
 
       for (const map of this.#executors.values()) {
         for (const executor of map.values()) {
-          executor.reject(new Error('Handler destroyed'));
+          executor.reject(new Error("Handler destroyed"));
         }
       }
 
@@ -111,7 +113,7 @@ export class BaseHandler {
 
         this.send(message);
 
-        let map = this.#executors.get(message.type)
+        let map = this.#executors.get(message.type);
         if (!map) {
           map = new Map();
           this.#executors.set(message.type, map);

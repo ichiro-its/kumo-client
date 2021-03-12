@@ -27,12 +27,11 @@ export class Session {
 
   connect(url: string): void {
     this.#webSocket.on("connect", (connection) => {
-
       const context = new ContextHandler(connection);
       this.#context = context;
 
       if (this.#connectCallback) {
-        this.#connectCallback(context)
+        this.#connectCallback(context);
       }
 
       connection.on("close", (code: number, desc: string): void => {
@@ -41,7 +40,7 @@ export class Session {
         }
 
         if (this.#disconnectCallback) {
-          this.#disconnectCallback(new Error(desc))
+          this.#disconnectCallback(new Error(desc));
         }
       });
 
@@ -53,7 +52,7 @@ export class Session {
 
     this.#webSocket.on("connectFailed", (err: Error) => {
       if (this.#disconnectCallback) {
-        this.#disconnectCallback((err));
+        this.#disconnectCallback(err);
       }
     });
 

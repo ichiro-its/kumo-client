@@ -1,0 +1,17 @@
+name: Kumo Client CI
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Install, Build, and Test
+        run: |
+          npm install
+          npm run build
+          npm run lint

@@ -11,6 +11,14 @@ export class NodeHandler extends BaseHandler {
     super(connection, id);
   }
 
+  async destroy(): Promise<void> {
+    await this.request(MessageType.DESTROY_NODE, {
+      node_id: this.id,
+    });
+
+    this.cleanUp();
+  }
+
   async createSubscription(
     messageType: string,
     topicName: string,

@@ -106,7 +106,7 @@ export class BaseHandler {
     this.connection.send(message.toString());
   }
 
-  async request(type: MessageType, content: any): Promise<Message> {
+  async sendRequest(type: MessageType, content: any): Promise<Message> {
     return new Promise<Message>((resolve, reject) => {
       try {
         const message = new Message(type, content);
@@ -126,7 +126,7 @@ export class BaseHandler {
     });
   }
 
-  async response(request: Message, content: any): Promise<void> {
+  async sendResponse(request: Message, content: any): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {
         const message = new Message(request.type, content, request.id);

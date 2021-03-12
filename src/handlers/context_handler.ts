@@ -12,7 +12,7 @@ export class ContextHandler extends BaseHandler {
   }
 
   async createNode(nodeName: string): Promise<NodeHandler> {
-    const response = await this.request(MessageType.CREATE_NODE, {
+    const response = await this.sendRequest(MessageType.CREATE_NODE, {
       node_name: nodeName,
     });
 

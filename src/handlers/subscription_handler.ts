@@ -22,12 +22,13 @@ export class SubscriptionHandler extends BaseHandler {
     if (message.type === MessageType.SUBSCRIPTION_MESSAGE) {
       if (String(message.content["subscription_id"]) === this.id) {
         this.#callback(message.content["message"]);
+        this.sendResponse(message, { subscription_id: this.id });
       }
     }
   }
 
   async destroy(): Promise<void> {
-    await this.request(MessageType.DESTROY_SUBSCRIPTION, {
+    await this.sendRequest(MessageType.DESTROY_SUBSCRIPTION, {
       subscription_id: this.id,
     });
 

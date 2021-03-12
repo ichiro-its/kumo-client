@@ -1,5 +1,6 @@
 import { MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
+import { PublisherHandler } from "./publisher_handler";
 
 import {
   SubscriptionCallback,
@@ -12,11 +13,31 @@ export class NodeHandler extends BaseHandler {
   }
 
   async destroy(): Promise<void> {
-    await this.request(MessageType.DESTROY_NODE, {
+    await this.sendRequest(MessageType.DESTROY_NODE, {
       node_id: this.id,
     });
 
     this.cleanUp();
+  }
+
+  async createPublisher(
+    messageType: string,
+    topicName: string
+  ): Promise<PublisherHandler> {
+    const response = await this.sendRequest(MessageType.CREATE_PUBLISHER, {
+      node_id: this.id,
+      message_type: messageType,
+      topic_name: topicName,
+    });
+
+    const publisher = new PublisherHandler(
+      this.connection,
+      response.content["publisher_id"]
+    );
+
+    this.attach(publisher);
+
+    return publisher;
   }
 
   async createSubscription(
@@ -24,7 +45,7 @@ export class NodeHandler extends BaseHandler {
     topicName: string,
     callback: SubscriptionCallback
   ): Promise<SubscriptionHandler> {
-    const response = await this.request(MessageType.CREATE_SUBSCRIPTION, {
+    const response = await this.sendRequest(MessageType.CREATE_SUBSCRIPTION, {
       node_id: this.id,
       message_type: messageType,
       topic_name: topicName,

@@ -1,6 +1,6 @@
 {
   "name": "kumo-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript client library for Kumo package",
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com>",

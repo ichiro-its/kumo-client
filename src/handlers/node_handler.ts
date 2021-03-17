@@ -1,5 +1,6 @@
 import { MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
+import { ClientHandler } from "./client_handler";
 import { PublisherHandler } from "./publisher_handler";
 
 import {
@@ -60,5 +61,25 @@ export class NodeHandler extends BaseHandler {
     this.attach(subscription);
 
     return subscription;
+  }
+
+  async createClient(
+    serviceType: string,
+    serviceName: string
+  ): Promise<ClientHandler> {
+    const response = await this.sendRequest(MessageType.CREATE_CLIENT, {
+      node_id: this.id,
+      service_type: serviceType,
+      service_name: serviceName,
+    });
+
+    const client = new ClientHandler(
+      this.connection,
+      response.content["client_id"]
+    );
+
+    this.attach(client);
+
+    return client;
   }
 }

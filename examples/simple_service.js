@@ -9,15 +9,18 @@ session
     console.info(`Connected to the bridge!`);
 
     console.info("Creating a node...");
-    const node = await context.createNode("simple_client");
+    const node = await context.createNode("simple_service");
 
     console.info("Creating a service...");
-    await node.createService(
+    const service = await node.createService(
       "example_interfaces/srv/AddTwoInts",
       "/add_two_ints"
     );
 
     await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    await service.destroy();
+    console.warn("Service destroyed!");
 
     await node.destroy();
     console.warn("Node destroyed!");

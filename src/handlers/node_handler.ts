@@ -2,6 +2,7 @@ import { MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
 import { ClientHandler } from "./client_handler";
 import { PublisherHandler } from "./publisher_handler";
+import { ServiceHandler } from "./service_handler";
 
 import {
   SubscriptionCallback,
@@ -81,5 +82,25 @@ export class NodeHandler extends BaseHandler {
     this.attach(client);
 
     return client;
+  }
+
+  async createService(
+    serviceType: string,
+    serviceName: string
+  ): Promise<ServiceHandler> {
+    const response = await this.sendRequest(MessageType.CREATE_SERVICE, {
+      node_id: this.id,
+      service_type: serviceType,
+      service_name: serviceName,
+    });
+
+    const service = new ServiceHandler(
+      this.connection,
+      response.content["service_id"]
+    );
+
+    this.attach(service);
+
+    return service;
   }
 }

@@ -11,21 +11,26 @@ session
     console.info("Creating a node...");
     const node = await context.createNode("simple_service");
 
+    let counter = 0;
+
     console.info("Creating a service...");
     const service = await node.createService(
       "example_interfaces/srv/AddTwoInts",
-      "/add_two_ints"
+      "/add_two_ints",
+      async (request) => {
+        if (++counter >= 10) {
+          await service.destroy();
+          console.warn("Service destroyed!");
+
+          await node.destroy();
+          console.warn("Node destroyed!");
+
+          process.exit(0);
+        }
+
+        return { sum: request.a + request.b };
+      }
     );
-
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    await service.destroy();
-    console.warn("Service destroyed!");
-
-    await node.destroy();
-    console.warn("Node destroyed!");
-
-    process.exit(0);
   })
   .onDisconnect((err) => {
     console.error(`Failed to connect to the bridge! ${err.message}`);

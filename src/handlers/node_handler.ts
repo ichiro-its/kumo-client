@@ -2,9 +2,15 @@ import { MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
 import { ClientHandler } from "./client_handler";
 import { PublisherHandler } from "./publisher_handler";
-import { ServiceHandler } from "./service_handler";
 
 import {
+  AsyncServiceCallback,
+  ServiceCallback,
+  ServiceHandler,
+} from "./service_handler";
+
+import {
+  AsyncSubscriptionCallback,
   SubscriptionCallback,
   SubscriptionHandler,
 } from "./subscription_handler";
@@ -45,7 +51,7 @@ export class NodeHandler extends BaseHandler {
   async createSubscription(
     messageType: string,
     topicName: string,
-    callback: SubscriptionCallback
+    callback: AsyncSubscriptionCallback | SubscriptionCallback
   ): Promise<SubscriptionHandler> {
     const response = await this.sendRequest(MessageType.CREATE_SUBSCRIPTION, {
       node_id: this.id,
@@ -86,7 +92,8 @@ export class NodeHandler extends BaseHandler {
 
   async createService(
     serviceType: string,
-    serviceName: string
+    serviceName: string,
+    callback: AsyncServiceCallback | ServiceCallback
   ): Promise<ServiceHandler> {
     const response = await this.sendRequest(MessageType.CREATE_SERVICE, {
       node_id: this.id,
@@ -96,7 +103,8 @@ export class NodeHandler extends BaseHandler {
 
     const service = new ServiceHandler(
       this.connection,
-      response.content["service_id"]
+      response.content["service_id"],
+      callback
     );
 
     this.attach(service);

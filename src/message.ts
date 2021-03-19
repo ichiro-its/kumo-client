@@ -10,6 +10,9 @@ export enum MessageType {
   CREATE_CLIENT,
   DESTROY_CLIENT,
   CLIENT_REQUEST,
+  CREATE_SERVICE,
+  DESTROY_SERVICE,
+  SERVICE_RESPONSE,
 }
 
 export class Message {

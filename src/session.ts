@@ -1,17 +1,20 @@
-import { client as WebSocket, IMessage } from "websocket";
+import {
+  w3cwebsocket as Connection,
+  ICloseEvent,
+  IMessageEvent,
+} from "websocket";
 
 import { ContextHandler } from "./handlers";
 import { Message } from "./message";
 
 export class Session {
-  #webSocket: WebSocket;
+  #connection?: Connection;
   #context?: ContextHandler;
 
   #connectCallback?: (context: ContextHandler) => void;
   #disconnectCallback?: (err: Error) => void;
 
   constructor() {
-    this.#webSocket = new WebSocket();
     return this;
   }
 
@@ -26,36 +29,46 @@ export class Session {
   }
 
   connect(url: string): void {
-    this.#webSocket.on("connect", (connection) => {
-      const context = new ContextHandler(connection);
-      this.#context = context;
+    try {
+      this.#connection = new Connection(url);
 
-      if (this.#connectCallback) {
-        this.#connectCallback(context);
-      }
+      this.#connection.onopen = (): void => {
+        if (!this.#connection) {
+          return;
+        }
 
-      connection.on("close", (code: number, desc: string): void => {
+        const context = new ContextHandler(this.#connection);
+        this.#context = context;
+
+        if (this.#connectCallback) {
+          this.#connectCallback(context);
+        }
+      };
+
+      this.#connection.onclose = (ev: ICloseEvent): void => {
         if (this.#context) {
           this.#context.cleanUp();
         }
 
         if (this.#disconnectCallback) {
-          this.#disconnectCallback(new Error(desc));
+          this.#disconnectCallback(new Error(ev.reason));
         }
-      });
+      };
 
-      connection.on("message", (ev: IMessage): void => {
-        const message: Message = Message.parseMessage(String(ev.utf8Data));
+      this.#connection.onmessage = (ev: IMessageEvent): void => {
+        const message: Message = Message.parseMessage(String(ev.data));
         this.#context?.handleMessage(message);
-      });
-    });
+      };
 
-    this.#webSocket.on("connectFailed", (err: Error) => {
-      if (this.#disconnectCallback) {
+      this.#connection.onerror = (err: Error) => {
+        if (this.#disconnectCallback) {
+          this.#disconnectCallback(err);
+        }
+      };
+    } catch (err) {
+      if (this.#disconnectCallback && err instanceof Error) {
         this.#disconnectCallback(err);
       }
-    });
-
-    this.#webSocket.connect(url);
+    }
   }
 }

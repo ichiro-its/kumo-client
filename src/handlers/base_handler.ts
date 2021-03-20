@@ -1,5 +1,5 @@
-import { connection as Connection } from "websocket";
-export { connection as Connection } from "websocket";
+import { w3cwebsocket as Connection } from "websocket";
+export { w3cwebsocket as Connection } from "websocket";
 import { Message, MessageType } from "../message";
 
 class Executor<T> {

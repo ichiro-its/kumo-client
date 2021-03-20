@@ -103,7 +103,9 @@ export class BaseHandler {
   }
 
   send(message: Message) {
-    this.connection.send(message.toString());
+    if (this.connection.readyState === Connection.OPEN) {
+      this.connection.send(message.toString());
+    }
   }
 
   async sendRequest(type: MessageType, content: any): Promise<Message> {

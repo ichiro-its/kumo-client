@@ -7,24 +7,34 @@ import {
 import { ContextHandler } from "./handlers";
 import { Message } from "./message";
 
+export type ConnectCallback = (context: ContextHandler) => void;
+export type DisconnectCallback = (code: number, reason: string) => void;
+export type ErrorCallback = (err: Error) => void;
+
 export class Session {
   #connection?: Connection;
   #context?: ContextHandler;
 
-  #connectCallback?: (context: ContextHandler) => void;
-  #disconnectCallback?: (err: Error) => void;
+  #connectCallback?: ConnectCallback;
+  #disconnectCallback?: DisconnectCallback;
+  #errorCallback?: ErrorCallback;
 
   constructor() {
     return this;
   }
 
-  onConnect(callback: (context: ContextHandler) => void): Session {
+  onConnect(callback: ConnectCallback): Session {
     this.#connectCallback = callback;
     return this;
   }
 
-  onDisconnect(callback: (err: Error) => void): Session {
+  onDisconnect(callback: DisconnectCallback): Session {
     this.#disconnectCallback = callback;
+    return this;
+  }
+
+  onError(callback: ErrorCallback): Session {
+    this.#errorCallback = callback;
     return this;
   }
 
@@ -51,7 +61,7 @@ export class Session {
         }
 
         if (this.#disconnectCallback) {
-          this.#disconnectCallback(new Error(ev.reason));
+          this.#disconnectCallback(ev.code, ev.reason);
         }
       };
 
@@ -61,13 +71,15 @@ export class Session {
       };
 
       this.#connection.onerror = (err: Error) => {
-        if (this.#disconnectCallback) {
-          this.#disconnectCallback(err);
+        if (this.#errorCallback && err instanceof Error) {
+          this.#errorCallback(err);
         }
       };
     } catch (err) {
-      if (this.#disconnectCallback && err instanceof Error) {
-        this.#disconnectCallback(err);
+      if (this.#errorCallback && err instanceof Error) {
+        this.#errorCallback(err);
+      } else {
+        throw err;
       }
     }
   }

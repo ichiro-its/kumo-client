@@ -1,5 +1,5 @@
-import { connection as Connection } from "websocket";
-export { connection as Connection } from "websocket";
+import { w3cwebsocket as Connection } from "websocket";
+export { w3cwebsocket as Connection } from "websocket";
 import { Message, MessageType } from "../message";
 
 class Executor<T> {
@@ -103,7 +103,9 @@ export class BaseHandler {
   }
 
   send(message: Message) {
-    this.connection.send(message.toString());
+    if (this.connection.readyState === Connection.OPEN) {
+      this.connection.send(message.toString());
+    }
   }
 
   async sendRequest(type: MessageType, content: any): Promise<Message> {

@@ -32,7 +32,10 @@ session
       }
     );
   })
-  .onDisconnect((err) => {
-    console.error(`Failed to connect to the bridge! ${err.message}`);
+  .onDisconnect((code, reason) => {
+    console.error(`Disconnected from the bridge! ${reason} (${code})`);
+  })
+  .onError((err) => {
+    console.error(`Found error! ${err.message}`);
   })
   .connect(url);

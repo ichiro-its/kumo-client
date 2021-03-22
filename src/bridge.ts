@@ -4,16 +4,16 @@ import {
   IMessageEvent,
 } from "websocket";
 
-import { ContextHandler } from "./handlers";
+import { SessionHandler } from "./handlers";
 import { Message } from "./message";
 
-export type ConnectCallback = (context: ContextHandler) => void;
+export type ConnectCallback = (session: SessionHandler) => void;
 export type DisconnectCallback = (code: number, reason: string) => void;
 export type ErrorCallback = (err: Error) => void;
 
-export class Session {
+export class Bridge {
   #connection?: Connection;
-  #context?: ContextHandler;
+  #session?: SessionHandler;
 
   #connectCallback?: ConnectCallback;
   #disconnectCallback?: DisconnectCallback;
@@ -23,17 +23,17 @@ export class Session {
     return this;
   }
 
-  onConnect(callback: ConnectCallback): Session {
+  onConnect(callback: ConnectCallback): Bridge {
     this.#connectCallback = callback;
     return this;
   }
 
-  onDisconnect(callback: DisconnectCallback): Session {
+  onDisconnect(callback: DisconnectCallback): Bridge {
     this.#disconnectCallback = callback;
     return this;
   }
 
-  onError(callback: ErrorCallback): Session {
+  onError(callback: ErrorCallback): Bridge {
     this.#errorCallback = callback;
     return this;
   }
@@ -47,17 +47,17 @@ export class Session {
           return;
         }
 
-        const context = new ContextHandler(this.#connection);
-        this.#context = context;
+        const session = new SessionHandler(this.#connection);
+        this.#session = session;
 
         if (this.#connectCallback) {
-          this.#connectCallback(context);
+          this.#connectCallback(session);
         }
       };
 
       this.#connection.onclose = (ev: ICloseEvent): void => {
-        if (this.#context) {
-          this.#context.cleanUp();
+        if (this.#session) {
+          this.#session.cleanUp();
         }
 
         if (this.#disconnectCallback) {
@@ -67,7 +67,7 @@ export class Session {
 
       this.#connection.onmessage = (ev: IMessageEvent): void => {
         const message: Message = Message.parseMessage(String(ev.data));
-        this.#context?.handleMessage(message);
+        this.#session?.handleMessage(message);
       };
 
       this.#connection.onerror = (err: Error) => {

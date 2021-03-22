@@ -2,7 +2,7 @@ import { Message, MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
 import { NodeHandler } from "./node_handler";
 
-export class ContextHandler extends BaseHandler {
+export class SessionHandler extends BaseHandler {
   constructor(connection: Connection) {
     super(connection, "-1");
   }

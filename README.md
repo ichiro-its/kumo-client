@@ -18,4 +18,4 @@ See the [`examples`](./examples) directory for information on how to use this li
 
 ## License
 
-This project is licensed under the [MIT License](./LICENSE).
+This project is licensed under [the MIT License](./LICENSE).

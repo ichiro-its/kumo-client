@@ -1,6 +1,6 @@
 {
   "name": "kumo-client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "JavaScript client library for the Kumo WebSocket to ROS 2 bridge.",
   "license": "MIT",
   "author": "Alfi Maulana <alfi.maulana.f@gmail.com>",

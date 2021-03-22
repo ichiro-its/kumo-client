@@ -1,15 +1,15 @@
 const kumo = require("../dist");
 
 const url = "ws://localhost:8080/";
-const session = new kumo.Session();
+const bridge = new kumo.Bridge();
 
 console.info(`Connecting to the bridge on ${url}...`);
-session
-  .onConnect(async (context) => {
+bridge
+  .onConnect(async (session) => {
     console.info(`Connected to the bridge!`);
 
     console.info("Creating a node...");
-    const node = await context.createNode("simple_service");
+    const node = await session.createNode("simple_service");
 
     let counter = 0;
 

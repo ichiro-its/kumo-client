@@ -5,9 +5,17 @@ const bridge = new kumo.Bridge();
 
 console.info(`Connecting to the bridge on ${url}...`);
 bridge
-  .onConnect(async (session) => {
-    console.info(`Connected to the bridge!`);
-
+  .onConnect(() => {
+    console.info("Connected to the bridge!");
+  })
+  .onDisconnect((code, reason) => {
+    console.error(`Disconnected from the bridge! ${reason} (${code})`);
+  })
+  .onError((err) => {
+    console.error(`Found error! ${err.message}`);
+  })
+  .connect(url)
+  .then(async (session) => {
     console.info("Creating a node...");
     const node = await session.createNode("simple_publisher");
 
@@ -34,10 +42,6 @@ bridge
 
     process.exit(0);
   })
-  .onDisconnect((code, reason) => {
-    console.error(`Disconnected from the bridge! ${reason} (${code})`);
-  })
-  .onError((err) => {
-    console.error(`Found error! ${err.message}`);
-  })
-  .connect(url);
+  .catch((err) => {
+    console.error(`Failed to connect to the bridge! ${err.message}`);
+  });

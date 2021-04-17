@@ -15,31 +15,31 @@ export class Bridge {
   #connection?: Connection;
   #session?: SessionHandler;
 
-  #connectCallback?: ConnectCallback;
-  #disconnectCallback?: DisconnectCallback;
-  #errorCallback?: ErrorCallback;
+  #connectCallbacks: ConnectCallback[] = [];
+  #disconnectCallbacks: DisconnectCallback[] = [];
+  #errorCallbacks: ErrorCallback[] = [];
 
   constructor() {
     return this;
   }
 
   onConnect(callback: ConnectCallback): Bridge {
-    this.#connectCallback = callback;
+    this.#connectCallbacks.push(callback);
     return this;
   }
 
   onDisconnect(callback: DisconnectCallback): Bridge {
-    this.#disconnectCallback = callback;
+    this.#disconnectCallbacks.push(callback);
     return this;
   }
 
   onError(callback: ErrorCallback): Bridge {
-    this.#errorCallback = callback;
+    this.#errorCallbacks.push(callback);
     return this;
   }
 
-  connect(url: string): void {
-    try {
+  connect(url: string): Promise<SessionHandler> {
+    return new Promise((resolve) => {
       this.#connection = new Connection(url);
 
       this.#connection.onopen = (): void => {
@@ -47,12 +47,13 @@ export class Bridge {
           return;
         }
 
-        const session = new SessionHandler(this.#connection);
-        this.#session = session;
+        this.#session = new SessionHandler(this.#connection);
 
-        if (this.#connectCallback) {
-          this.#connectCallback(session);
+        for (const callback of this.#connectCallbacks) {
+          callback(this.#session);
         }
+
+        resolve(this.#session);
       };
 
       this.#connection.onclose = (ev: ICloseEvent): void => {
@@ -60,8 +61,8 @@ export class Bridge {
           this.#session.cleanUp();
         }
 
-        if (this.#disconnectCallback) {
-          this.#disconnectCallback(ev.code, ev.reason);
+        for (const callback of this.#disconnectCallbacks) {
+          callback(ev.code, ev.reason);
         }
       };
 
@@ -71,16 +72,10 @@ export class Bridge {
       };
 
       this.#connection.onerror = (err: Error) => {
-        if (this.#errorCallback && err instanceof Error) {
-          this.#errorCallback(err);
+        for (const callback of this.#errorCallbacks) {
+          callback(err);
         }
       };
-    } catch (err) {
-      if (this.#errorCallback && err instanceof Error) {
-        this.#errorCallback(err);
-      } else {
-        throw err;
-      }
-    }
+    });
   }
 }

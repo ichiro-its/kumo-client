@@ -8,10 +8,16 @@ jobs:
   build-and-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checking out
         uses: actions/checkout@v2.3.4
-      - name: Install, Build, and Lint
+      - name: Setting up Node
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '14'
+      - name: Installing and building library
         run: |
           npm install
           npm run build
-          npm run lint
+      - name: Testing library
+        run: |
+          npm test

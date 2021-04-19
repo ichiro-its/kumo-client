@@ -1,9 +1,11 @@
-name: Doc and Deploy
+name: Build and Test
 on:
+  pull_request:
+    branches: [ master ]
   push:
     branches: [ master ]
 jobs:
-  doc-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checking out
@@ -12,12 +14,10 @@ jobs:
         uses: actions/setup-node@v2.1.5
         with:
           node-version: '14'
-      - name: Installing and generating documentation
+      - name: Installing and building library
         run: |
           npm install
-          npm run doc
-      - name: Deploying documentation
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        with:
-          branch: gh-pages
-          folder: docs
+          npm run build
+      - name: Testing library
+        run: |
+          npm test

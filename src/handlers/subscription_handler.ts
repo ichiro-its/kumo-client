@@ -5,7 +5,7 @@ export type AsyncSubscriptionCallback = (message: any) => Promise<void>;
 export type SubscriptionCallback = (message: any) => void;
 
 export class SubscriptionHandler extends BaseHandler {
-  #callback: AsyncSubscriptionCallback | SubscriptionCallback;
+  callback: AsyncSubscriptionCallback | SubscriptionCallback;
 
   constructor(
     connection: Connection,
@@ -14,7 +14,7 @@ export class SubscriptionHandler extends BaseHandler {
   ) {
     super(connection, id);
 
-    this.#callback = callback;
+    this.callback = callback;
   }
 
   handleMessage(message: Message): void {
@@ -22,7 +22,7 @@ export class SubscriptionHandler extends BaseHandler {
 
     if (message.type === MessageType.SUBSCRIPTION_MESSAGE) {
       if (String(message.content["subscription_id"]) === this.id) {
-        const result = this.#callback(message.content["message"]);
+        const result = this.callback(message.content["message"]);
         if (result instanceof Promise) {
           result.then(() => {
             this.sendResponse(message, { subscription_id: this.id });

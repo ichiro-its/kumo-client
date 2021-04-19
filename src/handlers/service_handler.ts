@@ -5,7 +5,7 @@ export type AsyncServiceCallback = (request: any) => Promise<any>;
 export type ServiceCallback = (request: any) => any;
 
 export class ServiceHandler extends BaseHandler {
-  #callback: AsyncServiceCallback | ServiceCallback;
+  private callback: AsyncServiceCallback | ServiceCallback;
 
   constructor(
     connection: Connection,
@@ -14,7 +14,7 @@ export class ServiceHandler extends BaseHandler {
   ) {
     super(connection, id);
 
-    this.#callback = callback;
+    this.callback = callback;
   }
 
   handleMessage(message: Message): void {
@@ -22,7 +22,7 @@ export class ServiceHandler extends BaseHandler {
 
     if (message.type === MessageType.SERVICE_RESPONSE) {
       if (String(message.content["service_id"]) === this.id) {
-        const result = this.#callback(message.content["request"]);
+        const result = this.callback(message.content["request"]);
         if (result instanceof Promise) {
           result.then((response) => {
             this.sendResponse(message, {

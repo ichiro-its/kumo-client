@@ -12,75 +12,70 @@ export type DisconnectCallback = (code: number, reason: string) => void;
 export type ErrorCallback = (err: Error) => void;
 
 export class Bridge {
-  #connection?: Connection;
-  #session?: SessionHandler;
+  private connection?: Connection;
+  private session?: SessionHandler;
 
-  #connectCallback?: ConnectCallback;
-  #disconnectCallback?: DisconnectCallback;
-  #errorCallback?: ErrorCallback;
+  private connectCallbacks: ConnectCallback[] = [];
+  private disconnectCallbacks: DisconnectCallback[] = [];
+  private errorCallbacks: ErrorCallback[] = [];
 
   constructor() {
     return this;
   }
 
   onConnect(callback: ConnectCallback): Bridge {
-    this.#connectCallback = callback;
+    this.connectCallbacks.push(callback);
     return this;
   }
 
   onDisconnect(callback: DisconnectCallback): Bridge {
-    this.#disconnectCallback = callback;
+    this.disconnectCallbacks.push(callback);
     return this;
   }
 
   onError(callback: ErrorCallback): Bridge {
-    this.#errorCallback = callback;
+    this.errorCallbacks.push(callback);
     return this;
   }
 
-  connect(url: string): void {
-    try {
-      this.#connection = new Connection(url);
+  connect(url: string): Promise<SessionHandler> {
+    return new Promise((resolve) => {
+      this.connection = new Connection(url);
 
-      this.#connection.onopen = (): void => {
-        if (!this.#connection) {
+      this.connection.onopen = (): void => {
+        if (!this.connection) {
           return;
         }
 
-        const session = new SessionHandler(this.#connection);
-        this.#session = session;
+        this.session = new SessionHandler(this.connection);
 
-        if (this.#connectCallback) {
-          this.#connectCallback(session);
+        for (const callback of this.connectCallbacks) {
+          callback(this.session);
+        }
+
+        resolve(this.session);
+      };
+
+      this.connection.onclose = (ev: ICloseEvent): void => {
+        if (this.session) {
+          this.session.cleanUp();
+        }
+
+        for (const callback of this.disconnectCallbacks) {
+          callback(ev.code, ev.reason);
         }
       };
 
-      this.#connection.onclose = (ev: ICloseEvent): void => {
-        if (this.#session) {
-          this.#session.cleanUp();
-        }
-
-        if (this.#disconnectCallback) {
-          this.#disconnectCallback(ev.code, ev.reason);
-        }
-      };
-
-      this.#connection.onmessage = (ev: IMessageEvent): void => {
+      this.connection.onmessage = (ev: IMessageEvent): void => {
         const message: Message = Message.parseMessage(String(ev.data));
-        this.#session?.handleMessage(message);
+        this.session?.handleMessage(message);
       };
 
-      this.#connection.onerror = (err: Error) => {
-        if (this.#errorCallback && err instanceof Error) {
-          this.#errorCallback(err);
+      this.connection.onerror = (err: Error) => {
+        for (const callback of this.errorCallbacks) {
+          callback(err);
         }
       };
-    } catch (err) {
-      if (this.#errorCallback && err instanceof Error) {
-        this.#errorCallback(err);
-      } else {
-        throw err;
-      }
-    }
+    });
   }
 }

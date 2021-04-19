@@ -1,11 +1,12 @@
 # Kumo Client
 
-[![npm version](https://badge.fury.io/js/kumo-client.svg)](http://badge.fury.io/js/kumo-client)
-[![npm downloads](https://img.shields.io/npm/dm/kumo-client.svg)](https://www.npmjs.com/package/kumo-client)
-[![build and lint status](https://github.com/ichiro-its/kumo-client/actions/workflows/build-and-lint.yml/badge.svg)](https://github.com/ichiro-its/kumo-client/actions)
-[![doc and deploy status](https://github.com/ichiro-its/kumo-client/actions/workflows/doc-and-deploy.yml/badge.svg)](https://github.com/ichiro-its/kumo-client/actions)
+[![npm version](https://img.shields.io/npm/v/kumo-client)](https://www.npmjs.com/package/kumo-client)
+[![v1.0.0 progress](https://img.shields.io/github/milestones/progress-percent/ichiro-its/kumo-client/1?label=v1.0.0%20progress)](https://github.com/ichiro-its/kumo-client/milestone/1)
+[![npm downloads](https://img.shields.io/npm/dm/kumo-client)](https://www.npmjs.com/package/kumo-client)
+[![build and test status](https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Build%20and%20Test?label=build%20and%20test)](https://github.com/ichiro-its/kumo-client/actions)
+[![doc and deploy status](https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Doc%20and%20Deploy?label=doc%20and%20deploy)](https://github.com/ichiro-its/kumo-client/actions)
 
-JavaScript client library for [the Kumo WebSocket to ROS 2 bridge](https://github.com/ichiro-its/kumo).
+JavaScript client library for [Kumo](https://github.com/ichiro-its/kumo) WebSocket to ROS 2 bridge.
 
 ## Documentation
 
@@ -13,9 +14,9 @@ You can read the full API documentation in the generated `docs` directory or in 
 
 ## Usage
 
-See the [`examples`](./examples) directory for information on how to use this library.
-> Make sure [the Kumo bridge server](https://github.com/ichiro-its/kumo) is already running.
+See [examples](./examples) for information on how to use this library.
+> Make sure the Kumo bridge server is already running.
 
 ## License
 
-This project is licensed under [the MIT License](./LICENSE).
+This project is maintained by [ICHIRO ITS](https://github.com/ichiro-its) and licensed under the [MIT License](./LICENSE).

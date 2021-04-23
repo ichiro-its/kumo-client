@@ -1,10 +1,10 @@
 # Kumo Client
 
 [![npm version](https://img.shields.io/npm/v/kumo-client)](https://www.npmjs.com/package/kumo-client)
-[![v1.0.0 progress](https://img.shields.io/github/milestones/progress-percent/ichiro-its/kumo-client/1?label=v1.0.0%20progress)](https://github.com/ichiro-its/kumo-client/milestone/1)
-[![npm downloads](https://img.shields.io/npm/dm/kumo-client)](https://www.npmjs.com/package/kumo-client)
-[![build and test status](https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Build%20and%20Test?label=build%20and%20test)](https://github.com/ichiro-its/kumo-client/actions)
-[![doc and deploy status](https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Doc%20and%20Deploy?label=doc%20and%20deploy)](https://github.com/ichiro-its/kumo-client/actions)
+[![commits since latest version](https://img.shields.io/github/commits-since/ichiro-its/kumo-client/latest)](https://github.com/ichiro-its/kumo-client/commits/master)
+[![milestone](https://img.shields.io/github/milestones/progress/ichiro-its/kumo-client/1?label=milestone)](https://github.com/ichiro-its/kumo-client/milestone/1)
+[![build and test status](https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Build%20and%20Test?label=test)](https://github.com/ichiro-its/kumo-client/actions)
+[![doc and deploy status](https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Doc%20and%20Deploy?label=deploy)](https://ichiro-its.github.io/kumo-client/)
 
 JavaScript client library for [Kumo](https://github.com/ichiro-its/kumo) WebSocket to ROS 2 bridge.
 

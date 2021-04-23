@@ -1,16 +1,15 @@
 import { Message, MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
 
-export type AsyncSubscriptionCallback = (message: any) => Promise<void>;
-export type SubscriptionCallback = (message: any) => void;
+export type SubscriptionCallback = (message: any) => void | Promise<void>;
 
 export class SubscriptionHandler extends BaseHandler {
-  callback: AsyncSubscriptionCallback | SubscriptionCallback;
+  callback: SubscriptionCallback;
 
   constructor(
     connection: Connection,
     id: string,
-    callback: AsyncSubscriptionCallback | SubscriptionCallback
+    callback: SubscriptionCallback
   ) {
     super(connection, id);
 

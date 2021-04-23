@@ -1,17 +1,12 @@
 import { Message, MessageType } from "../message";
 import { BaseHandler, Connection } from "./base_handler";
 
-export type AsyncServiceCallback = (request: any) => Promise<any>;
-export type ServiceCallback = (request: any) => any;
+export type ServiceCallback = (request: any) => any | Promise<any>;
 
 export class ServiceHandler extends BaseHandler {
-  private callback: AsyncServiceCallback | ServiceCallback;
+  private callback: ServiceCallback;
 
-  constructor(
-    connection: Connection,
-    id: string,
-    callback: AsyncServiceCallback | ServiceCallback
-  ) {
+  constructor(connection: Connection, id: string, callback: ServiceCallback) {
     super(connection, id);
 
     this.callback = callback;

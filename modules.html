@@ -946,12 +946,6 @@ img { max-width: 100%; }
 			<a href="classes/subscriptionhandler.html" class="tsd-kind-icon">Subscription<wbr>Handler</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#asyncservicecallback" class="tsd-kind-icon">Async<wbr>Service<wbr>Callback</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#asyncsubscriptioncallback" class="tsd-kind-icon">Async<wbr>Subscription<wbr>Callback</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
 			<a href="modules.html#connectcallback" class="tsd-kind-icon">Connect<wbr>Callback</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
@@ -975,10 +969,10 @@ img { max-width: 100%; }
 				<h1>Kumo Client</h1>
 			</a>
 			<p><a href="https://www.npmjs.com/package/kumo-client"><img src="https://img.shields.io/npm/v/kumo-client" alt="npm version"></a>
-				<a href="https://github.com/ichiro-its/kumo-client/milestone/1"><img src="https://img.shields.io/github/milestones/progress-percent/ichiro-its/kumo-client/1?label=v1.0.0%20progress" alt="v1.0.0 progress"></a>
-				<a href="https://www.npmjs.com/package/kumo-client"><img src="https://img.shields.io/npm/dm/kumo-client" alt="npm downloads"></a>
-				<a href="https://github.com/ichiro-its/kumo-client/actions"><img src="https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Build%20and%20Test?label=build%20and%20test" alt="build and test status"></a>
-			<a href="https://github.com/ichiro-its/kumo-client/actions"><img src="https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Doc%20and%20Deploy?label=doc%20and%20deploy" alt="doc and deploy status"></a></p>
+				<a href="https://github.com/ichiro-its/kumo-client/commits/master"><img src="https://img.shields.io/github/commits-since/ichiro-its/kumo-client/latest" alt="commits since latest version"></a>
+				<a href="https://github.com/ichiro-its/kumo-client/milestone/1"><img src="https://img.shields.io/github/milestones/progress/ichiro-its/kumo-client/1?label=milestone" alt="milestone"></a>
+				<a href="https://github.com/ichiro-its/kumo-client/actions"><img src="https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Build%20and%20Test?label=test" alt="build and test status"></a>
+			<a href="https://ichiro-its.github.io/kumo-client/"><img src="https://img.shields.io/github/workflow/status/ichiro-its/kumo-client/Doc%20and%20Deploy?label=deploy" alt="doc and deploy status"></a></p>
 			<p>JavaScript client library for <a href="https://github.com/ichiro-its/kumo">Kumo</a> WebSocket to ROS 2 bridge.</p>
 			<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
 				<h2>Documentation</h2>
@@ -1024,8 +1018,6 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Type aliases</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-type-alias"><a href="modules.html#asyncservicecallback" class="tsd-kind-icon">Async<wbr>Service<wbr>Callback</a></li>
-							<li class="tsd-kind-type-alias"><a href="modules.html#asyncsubscriptioncallback" class="tsd-kind-icon">Async<wbr>Subscription<wbr>Callback</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#connectcallback" class="tsd-kind-icon">Connect<wbr>Callback</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#disconnectcallback" class="tsd-kind-icon">Disconnect<wbr>Callback</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#errorcallback" class="tsd-kind-icon">Error<wbr>Callback</a></li>
@@ -1039,74 +1031,12 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Type aliases</h2>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="asyncservicecallback" class="tsd-anchor"></a>
-				<h3>Async<wbr>Service<wbr>Callback</h3>
-				<div class="tsd-signature tsd-kind-icon">Async<wbr>Service<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/handlers/service_handler.ts#L4">src/handlers/service_handler.ts:4</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-type-declaration">
-					<h4>Type declaration</h4>
-					<ul class="tsd-parameters">
-						<li class="tsd-parameter-siganture">
-							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
-							</ul>
-							<ul class="tsd-descriptions">
-								<li class="tsd-description">
-									<h4 class="tsd-parameters-title">Parameters</h4>
-									<ul class="tsd-parameters">
-										<li>
-											<h5>request: <span class="tsd-signature-type">any</span></h5>
-										</li>
-									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="asyncsubscriptioncallback" class="tsd-anchor"></a>
-				<h3>Async<wbr>Subscription<wbr>Callback</h3>
-				<div class="tsd-signature tsd-kind-icon">Async<wbr>Subscription<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/handlers/subscription_handler.ts#L4">src/handlers/subscription_handler.ts:4</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-type-declaration">
-					<h4>Type declaration</h4>
-					<ul class="tsd-parameters">
-						<li class="tsd-parameter-siganture">
-							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-							</ul>
-							<ul class="tsd-descriptions">
-								<li class="tsd-description">
-									<h4 class="tsd-parameters-title">Parameters</h4>
-									<ul class="tsd-parameters">
-										<li>
-											<h5>message: <span class="tsd-signature-type">any</span></h5>
-										</li>
-									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="connectcallback" class="tsd-anchor"></a>
 				<h3>Connect<wbr>Callback</h3>
 				<div class="tsd-signature tsd-kind-icon">Connect<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/bridge.ts#L10">src/bridge.ts:10</a></li>
+						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/59666e4/src/bridge.ts#L10">src/bridge.ts:10</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1137,7 +1067,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Disconnect<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/bridge.ts#L11">src/bridge.ts:11</a></li>
+						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/59666e4/src/bridge.ts#L11">src/bridge.ts:11</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1171,7 +1101,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Error<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/bridge.ts#L12">src/bridge.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/59666e4/src/bridge.ts#L12">src/bridge.ts:12</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1202,7 +1132,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Service<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/handlers/service_handler.ts#L5">src/handlers/service_handler.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/59666e4/src/handlers/service_handler.ts#L4">src/handlers/service_handler.ts:4</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1210,7 +1140,7 @@ img { max-width: 100%; }
 					<ul class="tsd-parameters">
 						<li class="tsd-parameter-siganture">
 							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
@@ -1220,7 +1150,10 @@ img { max-width: 100%; }
 											<h5>request: <span class="tsd-signature-type">any</span></h5>
 										</li>
 									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span>
+										<span class="tsd-signature-symbol"> | </span>
+										<span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>
+									</h4>
 								</li>
 							</ul>
 						</li>
@@ -1233,7 +1166,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Subscription<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/a607214/src/handlers/subscription_handler.ts#L5">src/handlers/subscription_handler.ts:5</a></li>
+						<li>Defined in <a href="https://github.com/ichiro-its/kumo-client/blob/59666e4/src/handlers/subscription_handler.ts#L4">src/handlers/subscription_handler.ts:4</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1241,7 +1174,7 @@ img { max-width: 100%; }
 					<ul class="tsd-parameters">
 						<li class="tsd-parameter-siganture">
 							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
@@ -1251,7 +1184,10 @@ img { max-width: 100%; }
 											<h5>message: <span class="tsd-signature-type">any</span></h5>
 										</li>
 									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span>
+										<span class="tsd-signature-symbol"> | </span>
+										<span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
+									</h4>
 								</li>
 							</ul>
 						</li>

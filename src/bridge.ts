@@ -12,8 +12,8 @@ export type DisconnectCallback = (code: number, reason: string) => void;
 export type ErrorCallback = (err: Error) => void;
 
 export class Bridge {
-  private connection?: Connection;
-  private session?: SessionHandler;
+  private connection: Connection | null = null;
+  private session: SessionHandler | null = null;
 
   private connectCallbacks: ConnectCallback[] = [];
   private disconnectCallbacks: DisconnectCallback[] = [];
@@ -39,11 +39,11 @@ export class Bridge {
   }
 
   connect(url: string): Promise<SessionHandler> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.connection = new Connection(url);
 
       this.connection.onopen = (): void => {
-        if (!this.connection) {
+        if (this.connection === null) {
           return;
         }
 
@@ -57,13 +57,20 @@ export class Bridge {
       };
 
       this.connection.onclose = (ev: ICloseEvent): void => {
-        if (this.session) {
+        const reason = ev.reason ?? "unknown reason";
+        const code = ev.code ?? -1;
+
+        if (this.session !== null) {
           this.session.cleanUp();
+
+          for (const callback of this.disconnectCallbacks) {
+            callback(code, reason);
+          }
+
+          this.session = null;
         }
 
-        for (const callback of this.disconnectCallbacks) {
-          callback(ev.code, ev.reason);
-        }
+        reject(Error(`${reason} (${code})`));
       };
 
       this.connection.onmessage = (ev: IMessageEvent): void => {
@@ -72,9 +79,15 @@ export class Bridge {
       };
 
       this.connection.onerror = (err: Error) => {
-        for (const callback of this.errorCallbacks) {
-          callback(err);
+        const message = err.message ?? "unknown error";
+
+        if (this.session !== null) {
+          for (const callback of this.errorCallbacks) {
+            callback(Error(message));
+          }
         }
+
+        reject(Error(message));
       };
     });
   }

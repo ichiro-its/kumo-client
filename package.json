@@ -1,6 +1,6 @@
 {
   "name": "kumo-client",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "JavaScript client library for Kumo WebSocket to ROS 2 bridge.",
   "keywords": [
     "client",
